@@ -2,13 +2,13 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.player.Alien;
+import com.mygdx.game.player.EnemyExplosion;
 import com.mygdx.game.player.Player;
 import com.mygdx.game.utils.TextureUtils;
 
@@ -31,18 +31,27 @@ public class SpaceInvaders extends ApplicationAdapter {
     Texture img;
     Texture imgBullet;
     Texture alien;
+    Texture explosion;
     Player player;
+    EnemyExplosion enemyExplosion;
     Alien[] alienList;
 
     Vector2 offsetAliens = new Vector2();
 
     @Override
     public void create() {
+
+        Sound sound = Gdx.audio.newSound(Gdx.files.internal("shoot.wav"));
+        Sound explode = Gdx.audio.newSound(Gdx.files.internal("explode.wav"));
+
+        explosion = TextureUtils.readRocket("explosion.png", 75, 75);
+        enemyExplosion = new EnemyExplosion(explosion);
+
         batch = new SpriteBatch();
         img = TextureUtils.readRocket("rocket.png", 75, 75);
         imgBullet = TextureUtils.readRocket("bullet.png", 75, 75);
         alien = TextureUtils.readRocket("alien.png", 48, 48);
-        player = new Player(img, imgBullet);
+        player = new Player(img, imgBullet, sound);
         alienList = new Alien[numWithAliens * numHeightAliens];
         int pos = 0;
         for (int i = 0; i < numHeightAliens; i++) {
@@ -53,7 +62,7 @@ public class SpaceInvaders extends ApplicationAdapter {
                 position.y += Gdx.graphics.getHeight();
                 position.x -= ((float) numWithAliens / 2) * spacingAliens;
                 position.y -= numHeightAliens * spacingAliens;
-                alienList[pos] = new Alien(position, alien);
+                alienList[pos] = new Alien(position, alien, explode);
                 pos++;
             }
         }
@@ -66,12 +75,14 @@ public class SpaceInvaders extends ApplicationAdapter {
         batch.begin();
         player.drow(batch);
 
-        for (Alien value : alienList) {
-            if (value.alive) {
+        for (Alien alien : alienList) {
+            if (alien.alive) {
 
-                if (player.spriteBullet.getBoundingRectangle().overlaps(value.sprite.getBoundingRectangle())) {
+                if (player.spriteBullet.getBoundingRectangle().overlaps(alien.sprite.getBoundingRectangle())) {
                     player.positionBullet.y = 1000;
-                    value.alive = false;
+                    alien.alive = false;
+                    alien.sound.play();
+                    enemyExplosion.draw(batch, alien.position);
                     break;
                 }
             }

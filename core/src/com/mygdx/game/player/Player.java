@@ -2,6 +2,7 @@ package com.mygdx.game.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -16,14 +17,16 @@ public class Player {
     public Sprite spriteBullet;
     public final float speedBullet = 1000;
     private final float speed = 500;
+    public Sound sound;
 
-    public Player(Texture img, Texture imgBullet) {
+    public Player(Texture img, Texture imgBullet, Sound sound) {
         sprite = new Sprite(img);
         spriteBullet = new Sprite(imgBullet);
 //        sprite.setColor(Color.GREEN);
         position = new Vector2(Gdx.graphics.getWidth()/2, 0);
         sprite.setScale(1);
         positionBullet = new Vector2(0, 10000);
+        this.sound = sound;
     }
 
     public void update(float delta) {
@@ -31,6 +34,7 @@ public class Player {
         if (Gdx.input.isKeyPressed(Input.Keys.UP) && positionBullet.y >= Gdx.graphics.getHeight()) {
             positionBullet.x = position.x;
             positionBullet.y = 0;
+            this.sound.play();
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) position.x -= speed * delta;
