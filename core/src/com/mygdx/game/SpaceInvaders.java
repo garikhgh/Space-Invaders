@@ -18,6 +18,7 @@ public class SpaceInvaders extends ApplicationAdapter {
     int numWithAliens = 11;
     int numHeightAliens = 5;
     int spacingAliens = 48;
+    int killedEnemy = 0;
 
     int minXAlien;
     int minYAlien;
@@ -88,6 +89,7 @@ public class SpaceInvaders extends ApplicationAdapter {
                     alien.alive = false;
                     alien.sound.play();
                     enemyExplosion.draw(batch, alien.position);
+                    gameInfo.setExplodedEnemyCount(++killedEnemy);
                     break;
                 }
             }

@@ -1,10 +1,10 @@
 package com.mygdx.game.info;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FillViewport;
@@ -14,6 +14,7 @@ import com.mygdx.game.constants.Constants;
 public class GameInfo {
 
     Integer explodedEnemyCount;
+    Table generalInfo;
     Label explodedEnemy;
     Label stageLevel;
     Label worldLabel;
@@ -27,7 +28,7 @@ public class GameInfo {
     public GameInfo(SpriteBatch spriteBatch) {
         viewport = new FillViewport(Constants.V_WIDTH, Constants.V_HEIGHT);
         stage = new Stage(viewport, spriteBatch);
-        Table generalInfo = new Table();
+        generalInfo = new Table();
         generalInfo.top();
         generalInfo.setFillParent(true);
 
@@ -42,5 +43,13 @@ public class GameInfo {
         generalInfo.add(stageLevel).expandX().padTop(10);
         generalInfo.add(explodedEnemy).expandX().padTop(10);
         stage.addActor(generalInfo);
+    }
+
+    public void setExplodedEnemyCount(Integer explodedEnemyCount) {
+        this.explodedEnemyCount = explodedEnemyCount;
+        Cell<Label> cell = generalInfo.getCell(explodedEnemy);
+        Label actor = cell.getActor();
+        actor.setText(explodedEnemyCount);
+
     }
 }
