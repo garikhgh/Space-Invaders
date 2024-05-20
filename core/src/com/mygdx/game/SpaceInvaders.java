@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.mygdx.game.info.GameInfo;
 import com.mygdx.game.player.Alien;
 import com.mygdx.game.player.EnemyExplosion;
 import com.mygdx.game.player.Player;
@@ -27,6 +28,7 @@ public class SpaceInvaders extends ApplicationAdapter {
     int speedAliens = 200;
 
     int amountOfAliveAliens = 0;
+    GameInfo gameInfo;
     SpriteBatch batch;
     Texture img;
     Texture imgBullet;
@@ -48,6 +50,7 @@ public class SpaceInvaders extends ApplicationAdapter {
         enemyExplosion = new EnemyExplosion(explosion);
 
         batch = new SpriteBatch();
+        gameInfo = new GameInfo(batch);
         img = TextureUtils.readRocket("rocket.png", 75, 75);
         imgBullet = TextureUtils.readRocket("bullet.png", 75, 75);
         alien = TextureUtils.readRocket("alien.png", 48, 48);
@@ -72,8 +75,10 @@ public class SpaceInvaders extends ApplicationAdapter {
     public void render() {
         float deltaTime = Gdx.graphics.getDeltaTime();
         ScreenUtils.clear(1, 1, 1, 1);
+        gameInfo.stage.draw();
         batch.begin();
         player.drow(batch);
+
 
         for (Alien alien : alienList) {
             if (alien.alive) {

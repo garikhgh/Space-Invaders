@@ -3,7 +3,6 @@ package com.mygdx.game.player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -23,7 +22,7 @@ public class Player {
         sprite = new Sprite(img);
         spriteBullet = new Sprite(imgBullet);
 //        sprite.setColor(Color.GREEN);
-        position = new Vector2(Gdx.graphics.getWidth()/2, 0);
+        position = new Vector2((float) Gdx.graphics.getWidth() / 2, 0);
         sprite.setScale(1);
         positionBullet = new Vector2(0, 10000);
         this.sound = sound;
