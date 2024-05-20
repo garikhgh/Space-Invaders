@@ -13,7 +13,7 @@ import com.mygdx.game.constants.Constants;
 
 public class GameInfo {
 
-    Integer explodedEnemyCount;
+    Integer explodedEnemyCount = 0;
     Table generalInfo;
     Label explodedEnemy;
     Label stageLevel;
@@ -49,7 +49,7 @@ public class GameInfo {
         this.explodedEnemyCount = explodedEnemyCount;
         Cell<Label> cell = generalInfo.getCell(explodedEnemy);
         Label actor = cell.getActor();
-        actor.setText(explodedEnemyCount);
+        actor.setText(String.format("%03d", explodedEnemyCount));
 
     }
 }
