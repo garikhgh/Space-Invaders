@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -41,12 +42,15 @@ public class SpaceInvaders extends ApplicationAdapter {
 
     Vector2 offsetAliens = new Vector2();
 
+    Music background;
     @Override
     public void create() {
 
         Sound sound = Gdx.audio.newSound(Gdx.files.internal("shoot.wav"));
+        sound.setVolume(1,10f);
         Sound explode = Gdx.audio.newSound(Gdx.files.internal("explode.wav"));
-
+        background = Gdx.audio.newMusic(Gdx.files.internal("background.mp3"));
+        background.setVolume(0.5f);
         explosion = TextureUtils.readRocket("explosion.png", 75, 75);
         enemyExplosion = new EnemyExplosion(explosion);
 
@@ -79,6 +83,8 @@ public class SpaceInvaders extends ApplicationAdapter {
         gameInfo.stage.draw();
         batch.begin();
         player.drow(batch);
+
+        background.play();
 
 
         for (Alien alien : alienList) {
